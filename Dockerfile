@@ -1,5 +1,5 @@
-# Use Maven 3.9.0 with JDK 17 as the base image
-FROM maven:3.9.0-jdk-17
+# Use OpenJDK 17 as the base image
+FROM openjdk:17
 
 # Update system and install curl
 RUN apt-get update && \
@@ -11,5 +11,11 @@ RUN curl -O https://dlcdn.apache.org/maven/maven-3/3.9.2/binaries/apache-maven-3
     ln -s /usr/share/apache-maven-3.9.2/bin/mvn /usr/bin/mvn && \
     rm apache-maven-3.9.2-bin.tar.gz
 
-# Use Maven as the default command
-CMD ["mvn"]
+# Set the working directory in the container
+WORKDIR /usr/src/app
+
+# Copy the current directory contents into the container at /usr/src/app
+COPY . .
+
+# Use Maven as the default command to run when the container starts
+CMD ["mvn", "-version"]
