@@ -1,15 +1,13 @@
 # Use OpenJDK 17 as the base image
 FROM openjdk:17
 
-# Update system and install curl
+# Update system and install curl and AWS CLI
 RUN apt-get update && \
-    apt-get install -y curl
-
-# Download and install Maven 3.9.2
-RUN curl -O https://dlcdn.apache.org/maven/maven-3/3.9.2/binaries/apache-maven-3.9.2-bin.tar.gz && \
-    tar -zxvf apache-maven-3.9.2-bin.tar.gz -C /usr/share/ && \
-    ln -s /usr/share/apache-maven-3.9.2/bin/mvn /usr/bin/mvn && \
-    rm apache-maven-3.9.2-bin.tar.gz
+    apt-get install -y curl unzip && \
+    curl "https://d1wn8e93y1gh8o.cloudfront.net/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    sudo ./aws/install && \
+    rm awscliv2.zip
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
